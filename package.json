@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "lint": "eslint --ext .jsx --fix src",
+    "lint:ci": "eslint --ext .jsx src",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run"
