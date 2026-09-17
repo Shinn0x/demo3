@@ -88,3 +88,15 @@ jobs:
               run: ls -la dist
             - name: Deploy to GitHub Pages
               run: echo "Deploying by $AUTHOR..."
+    report:
+        needs: [lint, test, build, deploy]
+        runs-on: ubuntu-latest
+        if: failure() || needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure'
+        steps:
+            - name: Print Report
+              run: |
+                echo "Lint: ${{ needs.lint.result }}"
+                echo "Test: ${{ needs.test.result }}"
+                echo "Build: ${{ needs.build.result }}"
+                echo "Deploy: ${{ needs.deploy.result }}"
+                echo "Something goes wrong, please check the logs for details."
