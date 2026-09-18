@@ -1,9 +1,9 @@
 name: Website Deployment
 on:
   workflow_dispatch:
-    # push:
-    #     branches:
-    #         - main
+  push:
+    branches:
+        - main
 env:
   AUTHOR: ${{ github.actor }}
 jobs:
@@ -78,17 +78,7 @@ jobs:
                 if-no-files-found: error
     deploy:
         needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Get Build Artifacts
-              uses: actions/download-artifact@v7
-              with:
-                name: dist-files
-                path: dist
-            - name: List dist's contents
-              run: ls -la dist
-            - name: Deploy to GitHub Pages
-              run: echo "Deploying by $AUTHOR..."
+        uses: ./.github/workflows/reusable.yml
     report:
         needs: [lint, test, build, deploy]
         runs-on: ubuntu-latest
